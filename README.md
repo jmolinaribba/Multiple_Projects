@@ -1,25 +1,12 @@
 # Multiple Projects
-This is where I save different projects to enhance my phython skills.
-The first one is a Calculator.
-# 🧮 Tkinter Calculator
+This is where I save different projects to enhance my phython skills. 
+My goal is to practice with simple projects in order to get better at programming. 
 
-Calculator built with Python and Tkinter.
+# Projects at the moment:
+🧮 Tkinter Calculator
 
-## Features
-- Basic operations (+, -, ×, ÷)
-- Square root
-- Percentage
-- Sign change
-- Error handling
-- Clean UI
+💪 Gym Tracker APP (in development)
 
-## Requirements
-- Python 3.x
-- Tkinter
 
-## How to run
-
-```bash
-python calculator.py
 Author
-Joaquín Molina
+Joaquín Molina Ribba
