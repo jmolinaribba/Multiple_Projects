@@ -1,0 +1,31 @@
+name,muscle_group,training_type,difficulty,equipment
+Bench Press,Chest,Strength,Intermediate,Barbell
+Incline Bench Press,Chest,Strength,Intermediate,Barbell
+Push Up,Chest,Strength,Beginner,Bodyweight
+Chest Fly,Chest,Strength,Beginner,Dumbbell
+Squat,Legs,Strength,Intermediate,Barbell
+Leg Press,Legs,Strength,Beginner,Machine
+Lunges,Legs,Strength,Beginner,Bodyweight
+Deadlift,Back,Strength,Advanced,Barbell
+Pull Up,Back,Strength,Advanced,Bodyweight
+Lat Pulldown,Back,Strength,Beginner,Machine
+Bicep Curl,Biceps,Strength,Beginner,Dumbbell
+Hammer Curl,Biceps,Strength,Beginner,Dumbbell
+Tricep Dips,Triceps,Strength,Intermediate,Bodyweight
+Tricep Pushdown,Triceps,Strength,Beginner,Cable
+Shoulder Press,Shoulders,Strength,Intermediate,Dumbbell
+Lateral Raise,Shoulders,Strength,Beginner,Dumbbell
+Front Raise,Shoulders,Strength,Beginner,Dumbbell
+Plank,Core,Strength,Beginner,Bodyweight
+Crunch,Core,Strength,Beginner,Bodyweight
+Russian Twist,Core,Strength,Intermediate,Bodyweight
+Running,Cardio,Cardio,Beginner,None
+Cycling,Cardio,Cardio,Beginner,Bicycle
+Jump Rope,Cardio,Cardio,Intermediate,Rope
+Burpees,Full Body,Cardio,Advanced,Bodyweight
+Mountain Climbers,Full Body,Cardio,Intermediate,Bodyweight
+Rowing Machine,Cardio,Cardio,Intermediate,Machine
+Hip Thrust,Glutes,Strength,Intermediate,Barbell
+Glute Bridge,Glutes,Strength,Beginner,Bodyweight
+Calf Raise,Calves,Strength,Beginner,Machine
+Seated Calf Raise,Calves,Strength,Beginner,Machine
