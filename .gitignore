@@ -1,1 +1,16 @@
-F1 Project/cache/
+# F1 Project Specifics
+cache/
+*.sqlite
+*.log
+
+# Python environment and fragments
+__pycache__/
+*.py[cod]
+*$py.class
+.venv/
+venv/
+ENV/
+
+# OS specific files
+.DS_Store
+Thumbs.db
