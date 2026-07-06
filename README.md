@@ -9,7 +9,9 @@ My goal is to practice with simple projects in order to get better at programmin
 
 💪 Gym Tracker APP 
 
-🏎️ F1 Analysis 
+🏎️ F1 Analysis
+
+🇮🇹 Embassy News
 
 Author
 Joaquín Molina Ribba
