@@ -1,0 +1,172 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Dashboard de Finanzas</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+</head>
+<body class="bg-gray-100 text-gray-800 font-sans p-4 md:p-8">
+
+    <div class="max-w-md mx-auto bg-white rounded-xl shadow-md overflow-hidden p-6 md:max-w-2xl">
+        <h1 class="text-2xl font-bold text-center mb-6 text-indigo-600">Mis Finanzas</h1>
+
+        <div class="grid grid-cols-2 gap-4 mb-6 text-center">
+            <div class="bg-green-100 p-4 rounded-lg">
+                <p class="text-sm text-green-700 font-semibold">Ingresos</p>
+                <p id="totalIncome" class="text-xl font-bold text-green-800">$0.00</p>
+            </div>
+            <div class="bg-red-100 p-4 rounded-lg">
+                <p class="text-sm text-red-700 font-semibold">Gastos</p>
+                <p id="totalExpense" class="text-xl font-bold text-red-800">$0.00</p>
+            </div>
+            <div class="col-span-2 bg-blue-50 p-4 rounded-lg border border-blue-200">
+                <p class="text-sm text-blue-700 font-semibold">Presupuesto Máximo (Target de Gastos): <span id="targetAmount">$1000.00</span></p>
+                <div class="w-full bg-gray-200 rounded-full h-4 mt-2">
+                    <div id="targetBar" class="bg-blue-600 h-4 rounded-full transition-all duration-500" style="width: 0%"></div>
+                </div>
+                <p id="targetStatus" class="text-xs text-gray-500 mt-2">0% del presupuesto consumido</p>
+            </div>
+        </div>
+
+        <hr class="my-6">
+
+        <h2 class="text-xl font-bold mb-4">Nueva Transacción</h2>
+        <form id="financeForm" class="space-y-4">
+            <div class="grid grid-cols-2 gap-4">
+                <div>
+                    <label class="block text-sm font-medium text-gray-700">Tipo</label>
+                    <select id="type" class="mt-1 block w-full rounded-md border-gray-300 shadow-sm p-2 border focus:ring-indigo-500 focus:border-indigo-500">
+                        <option value="gasto">Gasto</option>
+                        <option value="ingreso">Ingreso</option>
+                    </select>
+                </div>
+                <div>
+                    <label class="block text-sm font-medium text-gray-700">Categoría</label>
+                    <select id="category" class="mt-1 block w-full rounded-md border-gray-300 shadow-sm p-2 border focus:ring-indigo-500 focus:border-indigo-500">
+                        <option value="Comida">Comida</option>
+                        <option value="Transporte">Transporte</option>
+                        <option value="Servicios">Servicios</option>
+                        <option value="Ocio">Ocio</option>
+                        <option value="Salario">Salario (Ingreso)</option>
+                        <option value="Otros">Otros</option>
+                    </select>
+                </div>
+            </div>
+            
+            <div>
+                <label class="block text-sm font-medium text-gray-700">Monto ($)</label>
+                <input type="number" id="amount" required min="0.01" step="0.01" class="mt-1 block w-full rounded-md border-gray-300 shadow-sm p-2 border focus:ring-indigo-500 focus:border-indigo-500" placeholder="Ej: 50.00">
+            </div>
+
+            <div>
+                <label class="block text-sm font-medium text-gray-700">Descripción (Opcional)</label>
+                <input type="text" id="description" class="mt-1 block w-full rounded-md border-gray-300 shadow-sm p-2 border focus:ring-indigo-500 focus:border-indigo-500" placeholder="Ej: Almuerzo de trabajo">
+            </div>
+
+            <button type="submit" class="w-full flex justify-center py-2 px-4 border border-transparent rounded-md shadow-sm text-sm font-medium text-white bg-indigo-600 hover:bg-indigo-700 focus:outline-none">
+                Agregar Transacción
+            </button>
+        </form>
+
+        <hr class="my-6">
+
+        <h2 class="text-xl font-bold mb-4">Últimos Movimientos</h2>
+        <ul id="transactionList" class="divide-y divide-gray-200">
+            </ul>
+    </div>
+
+    <script>
+        // Variables principales y Target
+        const targetGasto = 1000.00; // Puedes modificar tu meta aquí
+        let transactions = JSON.parse(localStorage.getItem('finances')) || [];
+
+        // Referencias del DOM (Elementos de la pantalla)
+        const form = document.getElementById('financeForm');
+        const totalIncomeEl = document.getElementById('totalIncome');
+        const totalExpenseEl = document.getElementById('totalExpense');
+        const transactionList = document.getElementById('transactionList');
+        const targetBar = document.getElementById('targetBar');
+        const targetStatus = document.getElementById('targetStatus');
+
+        // Función para actualizar el Dashboard
+        function updateDashboard() {
+            let income = 0;
+            let expense = 0;
+
+            transactionList.innerHTML = ''; // Limpiar lista
+
+            // Calcular totales y crear lista
+            transactions.forEach((t, index) => {
+                if (t.type === 'ingreso') {
+                    income += t.amount;
+                } else {
+                    expense += t.amount;
+                }
+
+                // Crear elemento de la lista
+                const li = document.createElement('li');
+                li.className = "py-3 flex justify-between items-center";
+                li.innerHTML = `
+                    <div>
+                        <p class="text-sm font-medium text-gray-900">${t.category} <span class="text-xs text-gray-500">(${t.description || 'Sin desc.'})</span></p>
+                    </div>
+                    <div class="flex items-center gap-4">
+                        <span class="font-bold ${t.type === 'ingreso' ? 'text-green-600' : 'text-red-600'}">
+                            ${t.type === 'ingreso' ? '+' : '-'}$${t.amount.toFixed(2)}
+                        </span>
+                        <button onclick="deleteTransaction(${index})" class="text-red-500 hover:text-red-700 text-xs font-bold">X</button>
+                    </div>
+                `;
+                transactionList.appendChild(li);
+            });
+
+            // Actualizar textos de resumen
+            totalIncomeEl.innerText = `$${income.toFixed(2)}`;
+            totalExpenseEl.innerText = `$${expense.toFixed(2)}`;
+
+            // Actualizar Barra de Target
+            let percentage = (expense / targetGasto) * 100;
+            if (percentage > 100) percentage = 100;
+            
+            targetBar.style.width = `${percentage}%`;
+            targetStatus.innerText = `${percentage.toFixed(1)}% del presupuesto consumido`;
+
+            // Cambiar color si nos pasamos del target
+            if (expense > targetGasto) {
+                targetBar.classList.replace('bg-blue-600', 'bg-red-600');
+            } else {
+                targetBar.classList.replace('bg-red-600', 'bg-blue-600');
+            }
+        }
+
+        // Manejo del formulario
+        form.addEventListener('submit', function(e) {
+            e.preventDefault();
+            
+            const newTransaction = {
+                type: document.getElementById('type').value,
+                category: document.getElementById('category').value,
+                amount: parseFloat(document.getElementById('amount').value),
+                description: document.getElementById('description').value
+            };
+
+            transactions.push(newTransaction);
+            localStorage.setItem('finances', JSON.stringify(transactions)); // Guardar en el navegador
+            
+            form.reset(); // Limpiar formulario
+            updateDashboard(); // Recargar interfaz
+        });
+
+        // Función para borrar un registro
+        function deleteTransaction(index) {
+            transactions.splice(index, 1);
+            localStorage.setItem('finances', JSON.stringify(transactions));
+            updateDashboard();
+        }
+
+        // Inicializar al cargar la página
+        updateDashboard();
+    </script>
+</body>
+</html>
